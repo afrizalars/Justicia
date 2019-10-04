@@ -14,14 +14,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import cz.msebera.android.httpclient.Header;
 
 public class MovieViewModel extends ViewModel {
     public static final String MY_API_KEY = BuildConfig.API_KEY;;
 
+
     private MutableLiveData<ArrayList<MovieModel>> movielist =new MutableLiveData<>();
+
+    private MutableLiveData<ArrayList<MovieModel>> movieReleaseToday =new MutableLiveData<>();
+
+
 
     public void setMovies(){
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
@@ -54,7 +62,14 @@ public class MovieViewModel extends ViewModel {
 
     }
 
+
+
+
     public LiveData<ArrayList<MovieModel>> getMovies(){
         return movielist;
+    }
+
+    public LiveData<ArrayList<MovieModel>> getReleaseMovies(){
+        return movieReleaseToday;
     }
 }

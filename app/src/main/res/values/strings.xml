@@ -38,4 +38,6 @@
     <string name="searchmovie">Search Movie...</string>
     <string name="release_reminder">Release Reminder</string>
     <string name="daily_reminder">Daily Reminder</string>
+    <string name="daily_message">Muvi App is missing you so bad.</string>
+
 </resources>

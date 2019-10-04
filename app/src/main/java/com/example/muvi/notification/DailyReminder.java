@@ -1,6 +1,7 @@
-package com.example.muvi.alarmManager;
+package com.example.muvi.notification;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,23 +20,26 @@ import com.example.muvi.views.Activity.MainActivity;
 
 import java.util.Calendar;
 
-public class DailyNotification extends BroadcastReceiver {
+public class DailyReminder extends BroadcastReceiver {
 
     public final static int NOTIFICATION_ID = 1669;
     public final static String NOTIFICATION_CHANNEL_ID = "11669";
     public final static String NOTIFICATION_CHANNEL_NAME = "NOTIFICATION_CHANNEL_NAME";
 
 
-    public DailyNotification() {
+    public DailyReminder() {
 
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        sendNotification(context, context.getString(R.string.app_name));
+        String notificationMessage = context.getString(R.string.daily_message);
+        String notificationTitle = context.getString(R.string.app_name);
+
+        sendNotification(context, notificationTitle, notificationMessage,NOTIFICATION_ID);
     }
 
-    private void sendNotification(Context context, String title) {
+    private void sendNotification(Context context, String title, String message, Integer NOTIFICATION_ID) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(
                 Context.NOTIFICATION_SERVICE);
 
@@ -47,10 +51,10 @@ public class DailyNotification extends BroadcastReceiver {
 
         Uri uriTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, message)
                 .setSmallIcon(R.drawable.ic_movie_black_24dp)
                 .setContentTitle(title)
-                .setContentText(context.getString(R.string.deskripsi))
+                .setContentText(message)
                 .setContentIntent(pendingIntent)
                 .setColor(ContextCompat.getColor(context, android.R.color.transparent))
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
@@ -59,18 +63,18 @@ public class DailyNotification extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(
                     NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.YELLOW);
-            notificationChannel.enableVibration(true);
-            notificationChannel.setVibrationPattern(new long[]{1000,1000,1000,1000,1000});
+
             builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+
             if(notificationManager!=null) {
                 notificationManager.createNotificationChannel(notificationChannel);
             }
         }
 
+        Notification notification = builder.build();
+
         if (notificationManager != null) {
-            notificationManager.notify(13, builder.build());
+            notificationManager.notify(NOTIFICATION_ID, notification);
         }
 
     }
@@ -78,11 +82,11 @@ public class DailyNotification extends BroadcastReceiver {
     public void setAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        Intent intent = new Intent(context,DailyNotification.class);
+        Intent intent = new Intent(context,DailyReminder.class);
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-        calendar.set(Calendar.MINUTE, 6);
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND,0);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,NOTIFICATION_ID,intent,0);
@@ -95,7 +99,7 @@ public class DailyNotification extends BroadcastReceiver {
 
     public void cancelAlarm(Context context){
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context,DailyNotification.class);
+        Intent intent = new Intent(context,DailyReminder.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,NOTIFICATION_ID,intent,0);
         alarmManager.cancel(pendingIntent);
     }

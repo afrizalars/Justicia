@@ -38,5 +38,7 @@
     <string name="searchmovie">Cari Film...</string>
     <string name="release_reminder">Pengingat Rilis</string>
     <string name="daily_reminder">Pengingat harian</string>
+    <string name="daily_message">Muvi App sangat merindukanmu.</string>
+
 
 </resources>
