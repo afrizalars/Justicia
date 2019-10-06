@@ -1,27 +1,50 @@
 package com.example.muvi.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.example.muvi.R;
+import com.example.muvi.views.Activity.MainActivity;
+
+import java.util.Objects;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class FavoriteMovieWidget extends AppWidgetProvider {
 
+    private static final String TOAST_ACTION = "com.example.muvi.TOAST_ACTION";
+    public static final String EXTRA_ITEM = "com.example.muvi.EXTRA_ITEM";
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.favorite_movie_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        Intent i =new Intent(context, RemoteViewService.class);
+        i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        i.setData(Uri.parse(i.toUri(Intent.URI_INTENT_SCHEME)));
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+        RemoteViews rv = new RemoteViews(context.getPackageName(),R.layout.favorite_movie_widget);
+        rv.setRemoteAdapter(R.id.stack_view, i);
+
+        Intent toastIntent = new Intent(context, MainActivity.class);
+
+        toastIntent.setAction(TOAST_ACTION);
+        toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+
+        i.setData(Uri.parse(i.toUri(Intent.URI_INTENT_SCHEME)));
+        PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        rv.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent);
+        appWidgetManager.updateAppWidget(appWidgetId, rv);
+
+
     }
 
     @Override
@@ -40,6 +63,21 @@ public class FavoriteMovieWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+    @Override
+    public void onReceive(Context c, Intent i){
+        AppWidgetManager.getInstance(c);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Objects.requireNonNull(i.getAction()).equals(TOAST_ACTION)) {
+                i.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                        AppWidgetManager.INVALID_APPWIDGET_ID);
+                int viewIndex = i.getIntExtra(EXTRA_ITEM, 0);
+                Toast.makeText(c, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onReceive(c, i);
     }
 }
 

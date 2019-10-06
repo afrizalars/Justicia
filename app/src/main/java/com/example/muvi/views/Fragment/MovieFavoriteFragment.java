@@ -30,7 +30,6 @@ public class MovieFavoriteFragment extends Fragment {
     private RecyclerView rv;
     List<FavoriteModel> list = new ArrayList<>();
     private FavoriteAdapter adapter;
-    RealmHelper realmHelper;
 
     public MovieFavoriteFragment() {
         // Required empty public constructor
