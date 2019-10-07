@@ -3,6 +3,7 @@ package com.example.muvi.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -27,13 +28,14 @@ public class FavoriteMovieWidget extends AppWidgetProvider {
                                 int appWidgetId) {
 
         Intent i =new Intent(context, RemoteViewService.class);
+
         i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         i.setData(Uri.parse(i.toUri(Intent.URI_INTENT_SCHEME)));
 
         RemoteViews rv = new RemoteViews(context.getPackageName(),R.layout.favorite_movie_widget);
         rv.setRemoteAdapter(R.id.stack_view, i);
 
-        Intent toastIntent = new Intent(context, MainActivity.class);
+        Intent toastIntent = new Intent(context, FavoriteMovieWidget.class);
 
         toastIntent.setAction(TOAST_ACTION);
         toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
@@ -45,6 +47,12 @@ public class FavoriteMovieWidget extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, rv);
 
 
+    }
+
+    public static void sendRefreshBroadcast(Context context) {
+        Intent intent = new Intent("REFRESH_ACTION");
+        intent.setComponent(new ComponentName(context, FavoriteMovieWidget.class));
+        context.sendBroadcast(intent);
     }
 
     @Override
