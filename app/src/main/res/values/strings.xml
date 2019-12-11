@@ -40,4 +40,9 @@
     <string name="daily_reminder">Daily Reminder</string>
     <string name="daily_message">Muvi App is missing you so bad.</string>
 
+    <string-array name="masalah">
+
+    </string-array>
+
+
 </resources>

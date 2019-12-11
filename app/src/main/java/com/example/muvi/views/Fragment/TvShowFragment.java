@@ -3,15 +3,20 @@ package com.example.muvi.views.Fragment;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.example.muvi.R;
@@ -26,52 +31,49 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class TvShowFragment extends Fragment {
-
-    final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-    RecyclerView rvShow;
-    ProgressBar loading;
-    CardViewTvShowAdapter adapter;
-    TvShowViewModel viewModel;
-    private ArrayList<TvShowModel> list = new ArrayList<>();
-
-    private Observer<ArrayList<TvShowModel>> getTV = new Observer<ArrayList<TvShowModel>>() {
-        @Override
-        public void onChanged(@Nullable ArrayList<TvShowModel> tv) {
-            if (tv != null) {
-                adapter.setData(tv);
-                loading.setVisibility(View.GONE);
-            }
-        }
-    };
-
-    public TvShowFragment() {
-        // Required empty public constructor
-    }
+    WebView webView;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loading = view.findViewById(R.id.loading);
 
-        rvShow = view.findViewById(R.id.rv_show);
-        rvShow.setHasFixedSize(true);
+        webView = view.findViewById(R.id.webview);
 
-        viewModel = ViewModelProviders.of(this).get(TvShowViewModel.class);
-        viewModel.getTV().observe(this, getTV);
-        viewModel.setTV();
-        loading.setVisibility(View.VISIBLE);
+        webView.setWebViewClient(new myWebclient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.loadUrl("https://webchat.snatchbot.me/0006da78c87d0454d102ec03e609a7b1a22381693e020ab1ebdf0050af9f7a7c");
 
-        adapter = new CardViewTvShowAdapter(getContext());
-
-        adapter.notifyDataSetChanged();
-        showRecyclerCardView();
     }
 
+    public class myWebclient extends WebViewClient {
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+        }
 
-    private void showRecyclerCardView() {
-        rvShow.setLayoutManager(linearLayoutManager);
-        rvShow.setAdapter(adapter);
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return super.shouldOverrideUrlLoading(view, url);
+        }
     }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if((keyCode==KeyEvent.KEYCODE_BACK) && webView.canGoBack()){
+//            webView.goBack();
+//            return true;
+//        }
+//
+//        return super.onKeyDown(keyCode, event);
+//    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,4 +82,6 @@ public class TvShowFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_tv_show, container, false);
     }
 
+
 }
+

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
+import com.example.muvi.SearchLawyerFragment;
 import com.example.muvi.views.Fragment.Favorite;
 import com.example.muvi.R;
 import com.example.muvi.views.Fragment.MovieFragment;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_search:
 
                         //Fragment initialization
-                        SearchFragment searchFragment = new SearchFragment();
+                        SearchLawyerFragment searchFragment = new SearchLawyerFragment();
 
                         //Fragment Transaction
                         FragmentTransaction fragmentSearchTransaction = getSupportFragmentManager().beginTransaction();
