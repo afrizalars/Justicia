@@ -3,29 +3,29 @@
 
     <item
         android:id="@+id/navigation_movie"
-        android:icon="@drawable/ic_movie_black_24dp"
-        android:title="@string/movie_title"/>
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home"/>
 
     <item
         android:id="@+id/navigation_tvshow"
-        android:icon="@drawable/ic_personal_video_black_24dp"
-        android:title="@string/tv_show_title" />
+        android:icon="@drawable/ic_chat_black_24dp"
+        android:title="Chat" />
 
 
     <item
         android:id="@+id/navigation_favorite"
-        android:icon="@drawable/ic_favorite_black_24dp"
-        android:title="@string/favorites" />
+        android:icon="@drawable/ic_explore_black_24dp"
+        android:title="Feed" />
 
     <item
         android:id="@+id/navigation_search"
         android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/search" />
+        android:title="Search" />
 
     <item
         android:id="@+id/navigation_setting"
-        android:icon="@drawable/ic_settings_applications_black_24dp"
-        android:title="@string/settings" />
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Profile" />
 
 
 </menu>

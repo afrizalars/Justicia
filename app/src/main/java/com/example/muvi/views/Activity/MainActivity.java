@@ -7,11 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
-import com.example.muvi.SearchLawyerFragment;
+import com.example.muvi.views.Fragment.ChatFragment;
+import com.example.muvi.views.Fragment.SearchLawyerFragment;
 import com.example.muvi.views.Fragment.Favorite;
 import com.example.muvi.R;
 import com.example.muvi.views.Fragment.MovieFragment;
-import com.example.muvi.views.Fragment.SearchFragment;
 import com.example.muvi.views.Fragment.SettingFragment;
 import com.example.muvi.views.Fragment.TvShowFragment;
 
@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.navigation_tvshow:
                         //Fragment initialization
-                        TvShowFragment tvShowFragment = new TvShowFragment();
+                        ChatFragment chatFragment = new ChatFragment();
                         //Fragment Transaction
                         FragmentTransaction fragmentTvShowTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTvShowTransaction.replace(R.id.fragment_content, tvShowFragment);
+                        fragmentTvShowTransaction.replace(R.id.fragment_content, chatFragment);
                         fragmentTvShowTransaction.commit();
                         return true;
 
@@ -74,9 +74,19 @@ public class MainActivity extends AppCompatActivity {
                         fragmentSetting2Transaction.replace(R.id.fragment_content, settingFragment);
                         fragmentSetting2Transaction.commit();
                         return true;
+
+                    default:
+                        //Fragment initialization
+                        MovieFragment movieFragment2 = new MovieFragment();
+                        //Fragment Transaction
+                        FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction2.replace(R.id.fragment_content, movieFragment2);
+                        fragmentTransaction2.commit();
+                        return true;
+
                 }
 
-            return false;
+
         }
     };
 

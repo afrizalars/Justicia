@@ -56,6 +56,8 @@ public class Favorite extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         init(view);
 
+        toolbar.setTitle("Feed");
+
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         setupViewPager(viewPager);
 
@@ -78,8 +80,10 @@ public class Favorite extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
             FavoriteTabAdapter favoriteTabAdapter = new FavoriteTabAdapter(getChildFragmentManager());
-            favoriteTabAdapter.addFragment(new MovieFavoriteFragment(), getString(R.string.movietab));
-            favoriteTabAdapter.addFragment(new TvFavoriteFragment(), getString(R.string.tvshowtab));
+
+            //Tab Setting
+            favoriteTabAdapter.addFragment(new MovieFavoriteFragment(), "Literasi");
+            favoriteTabAdapter.addFragment(new TvFavoriteFragment(), "News");
             viewPager.setAdapter(favoriteTabAdapter);
     }
 

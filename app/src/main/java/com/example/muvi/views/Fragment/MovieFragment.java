@@ -58,29 +58,6 @@ public class MovieFragment extends Fragment {
 
     private Interface anInterface;
 
-//    private Observer<ArrayList<MovieModel>> getMovie = new Observer<ArrayList<MovieModel>>() {
-//                @Override
-//                public void onChanged(@Nullable ArrayList<MovieModel> movies) {
-//                    if (movies != null) {
-//                        adapter.setData(movies);
-//                        loading.setVisibility(View.GONE);
-//                    }
-//        }
-//    };
-
-//    private Observer<ArrayList<TvShowModel>> getTv = new Observer<ArrayList<TvShowModel>>() {
-//        @Override
-//        public void onChanged(@Nullable ArrayList<TvShowModel> tvShowModels) {
-//            if (tvShowModels != null) {
-//                adapterTv.setData(tvShowModels);
-//                loading.setVisibility(View.GONE);
-//                tvmovie.setVisibility(View.VISIBLE);
-//                tvtv.setVisibility(View.VISIBLE);
-//                more.setVisibility(View.VISIBLE);
-//            }
-//        }
-//    };
-
     public void getLawyerPopuler() {
         retrofit2.Call<LawyerPopulerModel> listModelCall = anInterface.getLawyerPopuler();
         listModelCall.enqueue(new Callback<LawyerPopulerModel>() {
@@ -130,14 +107,6 @@ public class MovieFragment extends Fragment {
         loading = view.findViewById(R.id.loading);
 
         anInterface = Client.getClient().create(Interface.class);
-
-//        viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
-//        viewModel.getMovies().observe(this, getMovie);
-//        viewModel.setMovies();
-//
-//        viewModelTv = ViewModelProviders.of(this).get(TvShowViewModel.class);
-//        viewModelTv.getTV().observe(this, getTv);
-//        viewModelTv.setTV();
 
         loading.setVisibility(View.VISIBLE);
 
